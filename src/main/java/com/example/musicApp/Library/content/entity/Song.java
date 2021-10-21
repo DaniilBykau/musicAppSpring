@@ -8,6 +8,7 @@ import lombok.extern.java.Log;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Getter
@@ -27,4 +28,8 @@ public class Song {
     private String singer;
 
     private Integer duration;
+
+    @ManyToMany//(mappedBy = "playlist")
+    @JoinColumn(name = "playlist_id")
+    private Set<Playlist> songs;
 }

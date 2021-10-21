@@ -29,7 +29,7 @@ public class Playlist {
 
     private String name;
 
-    @OneToMany//(mappedBy = "playlist")
+    @ManyToMany//(mappedBy = "playlist")
     @JoinColumn(name = "song_id")
     private Set<Song> songs;
 }
