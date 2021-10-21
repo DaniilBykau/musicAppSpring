@@ -21,4 +21,5 @@ public class Song {
     private String name;
     private String singer;
     private Integer duration;
+    private Playlist playlist;
 }
