@@ -1,5 +1,6 @@
 package com.example.musicApp.Library.content.entity;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 @Log
 @SuperBuilder
 @Component
+@Data
 public class Song {
     private Long id;
     private String name;
