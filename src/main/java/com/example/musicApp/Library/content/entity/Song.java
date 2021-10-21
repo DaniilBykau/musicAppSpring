@@ -31,5 +31,5 @@ public class Song {
 
     @ManyToMany//(mappedBy = "playlist")
     @JoinColumn(name = "playlist_id")
-    private Set<Playlist> songs;
+    private Set<Playlist> playlists;
 }
