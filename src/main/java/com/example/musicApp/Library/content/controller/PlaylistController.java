@@ -24,7 +24,6 @@ public class PlaylistController {
     @Autowired
     PlaylistConverter playlistConverter;
 
-
     @Autowired
     public PlaylistController(SongService songService, PlaylistService playlistService) {
         this.playlistService = playlistService;
@@ -50,9 +49,9 @@ public class PlaylistController {
 
     @PostMapping("save")
     public PlaylistDto save(@RequestBody PlaylistDto dto){
-        Playlist playlist = playlistConverter.dtoToEntity(dto);
+        Playlist playlist = playlistConverter.dtoToEntityUpdateAndCreate(dto);
         playlistService.create(playlist);
-        return playlistConverter.entityToDto(playlist);
+        return playlistConverter.entityToDtoCreateAndUpdate(playlist);
     }
 
     @PutMapping("update/{ID}")

@@ -19,9 +19,21 @@ public class PlaylistConverter {
         return  dto;
     }
 
+    public PlaylistDto entityToDtoCreateAndUpdate(Playlist playlist){
+        PlaylistDto dto = new PlaylistDto();
+        dto.setName(playlist.getName());
+        return  dto;
+    }
+
     public Playlist dtoToEntity(PlaylistDto dto){
         Playlist playlist = new Playlist();
         playlist.setId(dto.getId());
+        playlist.setName(dto.getName());
+        return playlist;
+    }
+
+    public Playlist dtoToEntityUpdateAndCreate(PlaylistDto dto){
+        Playlist playlist = new Playlist();
         playlist.setName(dto.getName());
         return playlist;
     }

@@ -30,8 +30,6 @@ public class SongController {
         this.songService = songService;
     }
 
-
-
     @GetMapping("test")
     public String test() {
         return "test";
@@ -46,19 +44,23 @@ public class SongController {
     @GetMapping("find/{ID}")
     public SongDto findById(@PathVariable(value = "ID") Long id){
         Song song = songService.find(id).orElse(null);
+        if(song==null){
+            return null;
+        }
         return songConverter.entityToDto(song);
     }
 
     @PostMapping("save")
     public SongDto save(@RequestBody SongDto dto){
-        Song song = songConverter.dtoToEntity(dto);
+        Song song = songConverter.dtoToEntityCreateAndUpdate(dto);
         song = songService.create(song);
-        return songConverter.entityToDto(song);
+        return songConverter.entityToDtoCreateAndUpdate(song);
     }
 
     @PutMapping("update/{ID}")
     public  void update(@PathVariable(value = "ID") Long id){
         Song song = songService.find(id).orElse(null);
+        songConverter.entityToDtoCreateAndUpdate(song);
         songService.update(song);
     }
 

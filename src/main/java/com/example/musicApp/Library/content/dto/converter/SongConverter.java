@@ -18,12 +18,26 @@ public class SongConverter {
         return  dto;
     }
 
+    public SongDto entityToDtoCreateAndUpdate(Song song){
+        SongDto dto = new SongDto();
+        dto.setName(song.getName());
+        dto.setSinger(song.getSinger());
+        return  dto;
+    }
+
     public Song dtoToEntity(SongDto dto){
         Song song = new Song();
         song.setId(dto.getId());
         song.setName(dto.getName());
         song.setSinger(dto.getSinger());
 
+        return song;
+    }
+
+    public Song dtoToEntityCreateAndUpdate(SongDto dto){
+        Song song = new Song();
+        song.setName(dto.getName());
+        song.setSinger(dto.getSinger());
         return song;
     }
 
