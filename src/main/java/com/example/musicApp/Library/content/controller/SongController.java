@@ -36,36 +36,36 @@ public class SongController {
     }
 
     @GetMapping("findAll")
-    public List<SongDto> findAll(){
+    public List<SongDto> findAll() {
         List<Song> songs = songService.findAll();
         return songConverter.entityToDto(songs);
     }
 
     @GetMapping("find/{ID}")
-    public SongDto findById(@PathVariable(value = "ID") Long id){
+    public SongDto findById(@PathVariable(value = "ID") Long id) {
         Song song = songService.find(id).orElse(null);
-        if(song==null){
+        if (song == null) {
             return null;
         }
         return songConverter.entityToDto(song);
     }
 
     @PostMapping("save")
-    public SongDto save(@RequestBody SongDto dto){
+    public SongDto save(@RequestBody SongDto dto) {
         Song song = songConverter.dtoToEntityCreateAndUpdate(dto);
         song = songService.create(song);
         return songConverter.entityToDtoCreateAndUpdate(song);
     }
 
     @PutMapping("update/{ID}")
-    public  void update(@PathVariable(value = "ID") Long id){
+    public void update(@PathVariable(value = "ID") Long id) {
         Song song = songService.find(id).orElse(null);
         songConverter.entityToDtoCreateAndUpdate(song);
         songService.update(song);
     }
 
     @DeleteMapping("delete/{ID}")
-    public void delete(@PathVariable(value = "ID") Long id){
+    public void delete(@PathVariable(value = "ID") Long id) {
         songService.delete(id);
     }
 }
