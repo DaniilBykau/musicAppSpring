@@ -7,16 +7,24 @@ import lombok.experimental.SuperBuilder;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
+
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Log
 @SuperBuilder
-@Component
+@Entity
+@Table(name = "songs")
 public class Song {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     private String singer;
+
     private Integer duration;
 }

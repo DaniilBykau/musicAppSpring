@@ -7,6 +7,7 @@ import com.example.musicApp.Library.content.repository.SongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,24 +16,35 @@ public class PlaylistService {
 
     private PlaylistRepository repository;
 
+
     @Autowired
     public PlaylistService(PlaylistRepository repository) {
         this.repository = repository;
     }
 
     public Optional<Playlist> find(Long id) {
-        return repository.find(id);
+        return repository.findById(id);
     }
 
-    public List<Playlist> findAllPlaylists() {
+
+    public List<Playlist> findAll() {
         return repository.findAll();
     }
 
+
+    @Transactional
     public void create(Playlist playlist) {
-        repository.create(playlist);
+        repository.save(playlist);
     }
 
-    public void delete(Playlist playlist) {
-        repository.delete(repository.find(playlist.getId()).orElseThrow());
+    @Transactional
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
+
+    @Transactional
+    public void update(Playlist playlist) {
+        repository.save(playlist);
+    }
+
 }

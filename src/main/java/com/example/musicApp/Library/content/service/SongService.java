@@ -1,11 +1,11 @@
 package com.example.musicApp.Library.content.service;
 
 import com.example.musicApp.Library.content.entity.Song;
-import com.example.musicApp.Library.content.repository.PlaylistRepository;
 import com.example.musicApp.Library.content.repository.SongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,19 +19,30 @@ public class SongService {
         this.repository = repository;
     }
 
+
     public Optional<Song> find(Long id) {
-        return repository.find(id);
+        return repository.findById(id);
     }
 
-    public List<Song> findAllSongs() {
+
+    public List<Song> findAll() {
         return repository.findAll();
     }
 
-    public void create(Song song) {
-        repository.create(song);
+
+    @Transactional
+    public Song create(Song song) {
+        repository.save(song);
+        return song;
     }
 
-    public void delete(Song song) {
-        repository.delete(repository.find(song.getId()).orElseThrow());
+    @Transactional
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
+    @Transactional
+    public void update(Song song) {
+        repository.save(song);
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 @Component
@@ -65,13 +66,13 @@ public class InitializedData {
         Playlist classicMusic = Playlist.builder()
                 .name("classic music")
                 .id(1L)
-                .songs(List.of(overtureFromTheMarriageOfFigaro, carmen, theFourSeasons))
+                .songs(Set.of(overtureFromTheMarriageOfFigaro, carmen, theFourSeasons))
                 .build();
 
         Playlist popularMusic = Playlist.builder()
                 .name("popular music")
                 .id(2L)
-                .songs(List.of(blindingLights, rollingInTheDeep))
+                .songs(Set.of(blindingLights, rollingInTheDeep))
                 .build();
 
         songService.create(theFourSeasons);
