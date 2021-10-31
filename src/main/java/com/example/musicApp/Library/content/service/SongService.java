@@ -3,6 +3,7 @@ package com.example.musicApp.Library.content.service;
 import com.example.musicApp.Library.content.entity.Song;
 import com.example.musicApp.Library.content.repository.SongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -42,7 +43,11 @@ public class SongService {
     }
 
     @Transactional
-    public void update(Song song) {
-        repository.save(song);
+    public Song update(Song song, Song newSong) {
+        Song songToChange = repository.getById(song.getId());
+        songToChange.setName(newSong.getName());
+        songToChange.setSinger(newSong.getSinger());
+        repository.save(songToChange);
+        return songToChange;
     }
 }

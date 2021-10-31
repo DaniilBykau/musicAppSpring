@@ -7,6 +7,7 @@ import com.example.musicApp.Library.content.entity.Song;
 import com.example.musicApp.Library.content.service.PlaylistService;
 import com.example.musicApp.Library.content.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,18 +31,13 @@ public class SongController {
         this.songService = songService;
     }
 
-    @GetMapping("test")
-    public String test() {
-        return "test";
-    }
-
-    @GetMapping("findAll")
+    @GetMapping
     public List<SongDto> findAll() {
         List<Song> songs = songService.findAll();
         return songConverter.entityToDto(songs);
     }
 
-    @GetMapping("find/{ID}")
+    @GetMapping("{ID}")
     public SongDto findById(@PathVariable(value = "ID") Long id) {
         Song song = songService.find(id).orElse(null);
         if (song == null) {
@@ -50,21 +46,21 @@ public class SongController {
         return songConverter.entityToDto(song);
     }
 
-    @PostMapping("save")
+    @PostMapping
     public SongDto save(@RequestBody SongDto dto) {
         Song song = songConverter.dtoToEntityCreateAndUpdate(dto);
         song = songService.create(song);
         return songConverter.entityToDtoCreateAndUpdate(song);
     }
 
-    @PutMapping("update/{ID}")
-    public void update(@PathVariable(value = "ID") Long id) {
+    @PutMapping("{ID}")
+    public SongDto update(@PathVariable(value = "ID") Long id, @RequestBody Song newSong) {
         Song song = songService.find(id).orElse(null);
-        songConverter.entityToDtoCreateAndUpdate(song);
-        songService.update(song);
+        song = songService.update(song, newSong);
+        return songConverter.entityToDtoCreateAndUpdate(song);
     }
 
-    @DeleteMapping("delete/{ID}")
+    @DeleteMapping("{ID}")
     public void delete(@PathVariable(value = "ID") Long id) {
         songService.delete(id);
     }

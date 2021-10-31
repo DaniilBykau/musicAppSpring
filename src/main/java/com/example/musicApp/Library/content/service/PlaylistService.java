@@ -43,8 +43,11 @@ public class PlaylistService {
     }
 
     @Transactional
-    public void update(Playlist playlist) {
+    public Playlist update(Playlist playlist, Playlist newPlaylist) {
+        playlist = repository.getById(playlist.getId());
+        playlist.setName(newPlaylist.getName());
         repository.save(playlist);
+        return playlist;
     }
 
 }

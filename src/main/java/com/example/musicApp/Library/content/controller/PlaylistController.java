@@ -30,37 +30,34 @@ public class PlaylistController {
         this.songService = songService;
     }
 
-    @GetMapping("test")
-    public String test() {
-        return "test";
-    }
 
-    @GetMapping("findAll")
+    @GetMapping
     public List<PlaylistDto> findAll(){
         List<Playlist> playlists = playlistService.findAll();
         return playlistConverter.entityToDto(playlists);
     }
 
-    @GetMapping("find/{ID}")
+    @GetMapping("{ID}")
     public PlaylistDto findById(@PathVariable(value = "ID") Long id){
         Playlist playlist = playlistService.find(id).orElse(null);
         return playlistConverter.entityToDto(playlist);
     }
 
-    @PostMapping("save")
+    @PostMapping
     public PlaylistDto save(@RequestBody PlaylistDto dto){
         Playlist playlist = playlistConverter.dtoToEntityUpdateAndCreate(dto);
         playlistService.create(playlist);
         return playlistConverter.entityToDtoCreateAndUpdate(playlist);
     }
 
-    @PutMapping("update/{ID}")
-    public void update(@PathVariable(value = "ID") Long id){
+    @PutMapping("{ID}")
+    public PlaylistDto update(@PathVariable(value = "ID") Long id, @RequestBody Playlist newPlaylist){
         Playlist playlist = playlistService.find(id).orElse(null);
-        playlistService.update(playlist);
+        playlist = playlistService.update(playlist, newPlaylist);
+        return playlistConverter.entityToDtoCreateAndUpdate(playlist);
     }
 
-    @DeleteMapping("delete/{ID}")
+    @DeleteMapping("{ID}")
     public void delete(@PathVariable(value = "ID") Long id){
         playlistService.delete(id);
     }
