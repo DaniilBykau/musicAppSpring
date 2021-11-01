@@ -26,10 +26,14 @@ public class PlaylistService {
         return repository.findById(id);
     }
 
+    public Optional<Playlist> findByName(String name) {
+        return repository.findPlaylistByName(name);
+    }
 
     public List<Playlist> findAll() {
         return repository.findAll();
     }
+
 
 
     @Transactional

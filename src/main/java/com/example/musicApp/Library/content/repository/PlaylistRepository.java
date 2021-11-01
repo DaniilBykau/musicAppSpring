@@ -15,4 +15,6 @@ public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
 
     List<Playlist> findAll();
 
+    Optional<Playlist> findPlaylistByName(String name);
+
 }

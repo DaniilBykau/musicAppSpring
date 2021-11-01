@@ -1,9 +1,7 @@
 package com.example.musicApp.Library.content.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Component;
@@ -15,10 +13,11 @@ import java.util.Set;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@Log
 @SuperBuilder
-@Component
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@ToString
+@EqualsAndHashCode
 @Entity
 @Table(name = "playlists")
 public class Playlist {
@@ -29,7 +28,6 @@ public class Playlist {
 
     private String name;
 
-    @ManyToMany(mappedBy = "playlists")
-    //@JoinColumn(name = "song_id")
+    @OneToMany(mappedBy = "playlist", cascade = CascadeType.REMOVE)
     private Set<Song> songs;
 }

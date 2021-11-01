@@ -29,6 +29,7 @@ public class Song {
 
     private Integer duration;
 
-    @ManyToMany//(mappedBy = "songs")
-    private Set<Playlist> playlists;
+    @ManyToOne
+    @JoinColumn(name ="playlist")
+    private Playlist playlist;
 }

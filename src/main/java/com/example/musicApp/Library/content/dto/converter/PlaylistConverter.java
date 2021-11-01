@@ -16,6 +16,7 @@ public class PlaylistConverter {
         PlaylistDto dto = new PlaylistDto();
         dto.setId(playlist.getId());
         dto.setName(playlist.getName());
+        dto.setSongs(playlist.getSongs().stream().map(Song::getName));
         return  dto;
     }
 

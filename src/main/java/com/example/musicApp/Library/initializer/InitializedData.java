@@ -28,11 +28,25 @@ public class InitializedData {
     @PostConstruct
     private synchronized void init(){
 
+        Playlist classicMusic = Playlist.builder()
+                .name("classic music")
+                .id(1L)
+                .build();
+
+        Playlist popularMusic = Playlist.builder()
+                .name("popular music")
+                .id(2L)
+                .build();
+
+        playlistService.create(classicMusic);
+        playlistService.create(popularMusic);
+
         Song theFourSeasons = Song.builder()
                 .id(1L)
                 .name("The Four Seasons")
                 .singer("Vivaldi")
                 .duration(222)
+                .playlist(classicMusic)
                 .build();
 
         Song carmen = Song.builder()
@@ -40,6 +54,7 @@ public class InitializedData {
                 .name("The Four Seasons")
                 .singer("Vivaldi")
                 .duration(229)
+                .playlist(classicMusic)
                 .build();
 
         Song overtureFromTheMarriageOfFigaro = Song.builder()
@@ -47,6 +62,7 @@ public class InitializedData {
                 .name("Overture from The Marriage of Figaro")
                 .singer("Mozart")
                 .duration(270)
+                .playlist(classicMusic)
                 .build();
 
         Song rollingInTheDeep = Song.builder()
@@ -54,6 +70,7 @@ public class InitializedData {
                 .name("Rolling in the Deep")
                 .singer("Adele")
                 .duration(237)
+                .playlist(popularMusic)
                 .build();
 
         Song blindingLights = Song.builder()
@@ -61,18 +78,7 @@ public class InitializedData {
                 .name("Blinding Lights")
                 .singer("The Weeknd")
                 .duration(263)
-                .build();
-
-        Playlist classicMusic = Playlist.builder()
-                .name("classic music")
-                .id(1L)
-                .songs(Set.of(overtureFromTheMarriageOfFigaro, carmen, theFourSeasons))
-                .build();
-
-        Playlist popularMusic = Playlist.builder()
-                .name("popular music")
-                .id(2L)
-                .songs(Set.of(blindingLights, rollingInTheDeep))
+                .playlist(popularMusic)
                 .build();
 
         songService.create(theFourSeasons);
@@ -81,8 +87,6 @@ public class InitializedData {
         songService.create(rollingInTheDeep);
         songService.create(blindingLights);
 
-        playlistService.create(classicMusic);
-        playlistService.create(popularMusic);
 
 
     }

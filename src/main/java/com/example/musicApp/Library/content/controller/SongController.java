@@ -3,6 +3,7 @@ package com.example.musicApp.Library.content.controller;
 
 import com.example.musicApp.Library.content.dto.SongDto;
 import com.example.musicApp.Library.content.dto.converter.SongConverter;
+import com.example.musicApp.Library.content.entity.Playlist;
 import com.example.musicApp.Library.content.entity.Song;
 import com.example.musicApp.Library.content.service.PlaylistService;
 import com.example.musicApp.Library.content.service.SongService;
@@ -10,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/songs")
@@ -37,6 +40,10 @@ public class SongController {
         return songConverter.entityToDto(songs);
     }
 
+    @GetMapping("test")
+    public String test() {
+        return "test";
+    }
     @GetMapping("{ID}")
     public SongDto findById(@PathVariable(value = "ID") Long id) {
         Song song = songService.find(id).orElse(null);
@@ -46,11 +53,14 @@ public class SongController {
         return songConverter.entityToDto(song);
     }
 
-    @PostMapping
-    public SongDto save(@RequestBody SongDto dto) {
-        Song song = songConverter.dtoToEntityCreateAndUpdate(dto);
+    @PostMapping("/{Playlist Name}")
+    public ResponseEntity<Void> save(@RequestBody SongDto dto, UriComponentsBuilder builder, @PathVariable(value = "Playlist Name") String name) {
+        Optional<Playlist> playlist = playlistService.findByName(name);
+        Song song = songConverter.dtoToEntityCreate(playlist::get).apply(dto);
+
         song = songService.create(song);
-        return songConverter.entityToDtoCreateAndUpdate(song);
+        return ResponseEntity.created(builder.pathSegment("api", "songs", "{id}")
+                .buildAndExpand(song.getId()).toUri()).build();
     }
 
     @PutMapping("{ID}")
